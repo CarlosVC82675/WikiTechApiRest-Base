@@ -17,7 +17,6 @@ async createUser(userDto: CreateUserDTO){
     await newUser.save();
     return newUser;
 
-
 }
 
 }
