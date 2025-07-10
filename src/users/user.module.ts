@@ -22,7 +22,8 @@ import { UserController } from "./user.controller";
     controllers: [
         UserController,
     ],
-
+    //Exporta a classe para ser usado em outros modulos
+    exports: [UserService],
 })
 
 export class UserModule{}
