@@ -1,27 +1,26 @@
 import { Module } from "@nestjs/common";
-import { MongooseModule } from "@nestjs/mongoose";
-import { User, UserSchema } from "src/schemas/user.schema";
 import { AuthService } from "./auth.service";
 import { AuthController } from "./auth.controller";
-import { UserService } from "src/users/user.service";
+import { UserModule } from "src/users/user.module";
+import { JwtModule } from "@nestjs/jwt";
+import { JwtStrategy } from "./jwt.strategy";
 
 
 @Module({
 
 imports:[
-    MongooseModule.forFeature([
-        {
-            name: User.name,
-            schema: UserSchema,
-        },
-
-    ])
+   UserModule,
+   //configurando e declarando a chave dos tokens
+   JwtModule.register({
+      secret: 'bungas',
+      signOptions: { expiresIn: '1h' },
+    }),
 ],
 
 
 providers:[
-    AuthService,
-    UserService
+    AuthService,   
+    JwtStrategy,
 ],
 
 
