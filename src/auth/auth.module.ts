@@ -12,6 +12,7 @@ import { JwtStrategy } from "./jwt.strategy";
 imports:[
    UserModule,
    //configurando e declarando a chave dos tokens
+   //usando variáveis de ambiente (.env)
    JwtModule.registerAsync({
     imports: [ConfigModule],
     inject: [ConfigService],
