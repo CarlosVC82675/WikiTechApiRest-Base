@@ -38,4 +38,12 @@ async createUser(userDto: CreateUserDTO){
 
 }
 
+
+async findbyEmail(userEmail){
+
+ const UserExist = await this.UserModel.findOne({email:userEmail});    
+ return UserExist;
+}
+
+
 }
