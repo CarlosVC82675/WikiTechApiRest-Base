@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { Post, PostSchema } from "src/schemas/post.schema";
+import { PostService } from "./post.service";
 
 
 @Module({
@@ -13,7 +14,9 @@ imports: [
         },
     ])
 ],
-providers: [],
+providers: [
+    PostService,
+],
 
 controllers: [],
 
