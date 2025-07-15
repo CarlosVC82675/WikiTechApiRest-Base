@@ -30,10 +30,25 @@ export class PostService {
 
     }
 
-    async listAllPosts(){
-        return await this.PostModel.find()
-        .populate('autor', 'nomeDeUsuario avatar role')
-        .exec();;
+    async listAllPosts(filters: { search?: string; tag?: string }) {
+
+        //Cria e começa com uma query vazia, adiciona filtros se forem passados.
+        const query: any = {};
+
+        if (filters.search) {
+            query.$or = [ // cria uma busca textual 
+            { titulo: { $regex: filters.search, $options: 'i' } }, // flag i ignora maiúsculas/minúsculas (case-insensitive)
+            { conteudo: { $regex: filters.search, $options: 'i' } },
+            ];
+        }
+
+        if (filters.tag) {
+            query.tags = filters.tag; //Filtra os posts que foram criados por tags
+        }
+        //Executa a consulta usando os filtros.
+        return this.PostModel.find(query)
+            .populate('autor', 'nomeDeUsuario avatar role')
+            .exec();
     }
 
     async findAPost(id: string){

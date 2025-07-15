@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpException, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpException, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
 import { PostService } from "./post.service";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { CreatePostDTO } from "./Postdto/create-post.dto";
@@ -25,9 +25,13 @@ export class PostController{
 
     @UseGuards(JwtAuthGuard)
     @Get()
-    async getPosts(){
-
-        return this.postService.listAllPosts();
+    async getPosts(
+        @Query('search') search?: string, //parâmetros de busca, search para texto
+        @Query('tag') tag?: string,  //para tag
+        //parâmetros são capturados automaticamente via @Query() 
+        ){
+        
+        return this.postService.listAllPosts({ search, tag });
     }
 
     @UseGuards(JwtAuthGuard)
