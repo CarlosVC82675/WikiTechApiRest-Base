@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Post } from "src/schemas/post.schema";
@@ -63,24 +63,42 @@ export class PostService {
         return post;
     }
 
-    async editPost(updatePost: UpdatePostDTO, id: string){
-        const updated = await this.PostModel.findByIdAndUpdate(id,updatePost,{new:true})
-        .populate('autor', 'nomeDeUsuario avatar role') 
-        .exec();
+    async editPost(updatePost: UpdatePostDTO, id: string, userId: string){
 
-         if (!updated) {
-         throw new NotFoundException('Post não encontrado para atualizar');
-         }
+         //  garante que só vai editar se o post com aquele id pertence ao userId.
+        const post = await this.PostModel.findOne({ _id: id, autor: userId });
+        if (!post) {
+            throw new NotFoundException('Post não encontrado ou você não tem permissão');
+        }
 
-         return updated;
+        // Atualiza as propriedades no objeto post
+        Object.assign(post, updatePost);
+
+        // Salva as alterações
+         await post.save();
+
+        // Popula os campos do autor
+        await post.populate('autor', 'nomeDeUsuario avatar role');
+
+         return post;
+
+         //Evita uma segunda consulta
+         //Trabalha diretamente no documento carregado.
     }
 
-    async deletePost(id:string){
-        const deleted = await this.PostModel.findByIdAndDelete(id)
-        if (!deleted) {
+    async deletePost(id:string, userId: string, userRole: string){
+
+        const post = await this.PostModel.findById(id)
+        if (!post) {
         throw new NotFoundException('Post não encontrado para deletar');
         }
+
+        // Verifica se o usuário é autor ou admin
+        if (post.autor.toString() !== userId && userRole !== 'admin') {
+            throw new ForbiddenException('Você não tem permissão para deletar este post');
+        }
         
+        await this.PostModel.findByIdAndDelete(id);
     }
 
 }

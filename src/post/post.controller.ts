@@ -48,23 +48,23 @@ export class PostController{
 
     @UseGuards(JwtAuthGuard)
     @Patch(':id')
-    async editPost(@Param('id')id:string, @Body() updatePost: UpdatePostDTO){
+    async editPost(@Param('id')id:string, @Body() updatePost: UpdatePostDTO, @CurrentUser() user: JwtPayload,){
 
         const isValid = mongoose.Types.ObjectId.isValid(id) // melhor em um middleware
         if(!isValid) throw new HttpException('post invalido', 404);
 
-        return this.postService.editPost(updatePost,id);
+        return this.postService.editPost(updatePost,id, user.sub);
 
     }
 
     @UseGuards(JwtAuthGuard)
     @Delete(':id')
-    async deletePost(@Param('id') id: string){
+    async deletePost(@Param('id') id: string, @CurrentUser() user: JwtPayload,){
 
         const isValid = mongoose.Types.ObjectId.isValid(id) // melhor em um middleware
         if(!isValid) throw new HttpException('post invalido', 404);
 
-        return this.postService.deletePost(id);
+        return this.postService.deletePost(id, user.sub, user.role);
     }
 
 
