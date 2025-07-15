@@ -6,6 +6,7 @@ import { UserModule } from 'src/users/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from 'src/auth/auth.module';
 import { PerfilModule } from 'src/perfil/perfil.module';
+import { PostModule } from 'src/post/post.module';
 
 
 @Module({
@@ -14,6 +15,7 @@ import { PerfilModule } from 'src/perfil/perfil.module';
     UserModule, //Modulo user
     AuthModule,
     PerfilModule,
+    PostModule,
     //tornando o ConfigModule acessivel
     ConfigModule.forRoot({
       isGlobal: true, 

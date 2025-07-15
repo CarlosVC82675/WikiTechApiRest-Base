@@ -11,7 +11,8 @@ export class User {
     @Prop({unique:true, required:true})
     email: string;
 
-    @Prop({required:true})
+    //select: false esconde a propriedade mesmo usando findone ou populate
+    @Prop({required:true, select: false})
     senha: string;
 
     //abreviação de enumeration, limitar um campo a um conjuto fixo de valores
