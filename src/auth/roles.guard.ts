@@ -4,6 +4,7 @@ import { ROLES_KEY } from './role.decorator';
 import { UserRole } from 'src/enums/user-role.enum';
 
 @Injectable()
+//Guarda que vai funciona em cada rota para verificar as permissões do usuario
 //impede acesso a usuários sem permissão.
 export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
