@@ -4,6 +4,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
+//regras de validação para tokens
 export class JwtStrategy extends PassportStrategy(Strategy) {
 
   constructor(configService: ConfigService) {

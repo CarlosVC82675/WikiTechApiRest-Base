@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from 'src/users/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from 'src/auth/auth.module';
+import { PerfilModule } from 'src/perfil/perfil.module';
 
 
 @Module({
@@ -12,6 +13,7 @@ import { AuthModule } from 'src/auth/auth.module';
     MongooseModule.forRoot('mongodb://127.0.0.1/Wikitech'),
     UserModule, //Modulo user
     AuthModule,
+    PerfilModule,
     //tornando o ConfigModule acessivel
     ConfigModule.forRoot({
       isGlobal: true, 
