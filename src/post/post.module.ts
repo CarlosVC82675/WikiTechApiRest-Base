@@ -23,7 +23,7 @@ controllers: [
     PostController,
 ],
 
-exports: [],
+exports: [PostService],
 
 })
 

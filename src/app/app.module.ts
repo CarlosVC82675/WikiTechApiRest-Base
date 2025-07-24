@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from 'src/auth/auth.module';
 import { PerfilModule } from 'src/perfil/perfil.module';
 import { PostModule } from 'src/post/post.module';
+import { CommentModule } from 'src/comments/comment.module';
 
 
 @Module({
@@ -16,6 +17,7 @@ import { PostModule } from 'src/post/post.module';
     AuthModule,
     PerfilModule,
     PostModule,
+    CommentModule,
     //tornando o ConfigModule acessivel
     ConfigModule.forRoot({
       isGlobal: true, 
